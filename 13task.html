@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <!-- Default CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      * {
+        margin: 0%;
+        padding: 0%;
+        box-sizing: border-box;
+      }
+
+      .container-fluid {
+        position: relative;
+        height: 100vh;
+        width: 100%;
+      }
+
+      body {
+        height: 50%;
+        font-family: Arial, Helvetica, sans-serif;
+        background-image: url("cover.jpg");
+        min-height: 380px;
+        background-size: cover;
+        position: relative;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      .contentbox {
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        width: 100%;
+      }
+
+      .btn {
+        background-color: rgb(98, 183, 98);
+        color: black;
+        font-weight: 600;
+        padding: 16px 10px;
+        margin-bottom: 10px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      .btn:hover {
+        background-color: green;
+      }
+
+      input[type="tel"],
+      input[type="time"],
+      input[type="date"],
+      input[type="text"],
+      input[type="Email"] {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0 22px 0;
+        border: none;
+        background: #f1f1f1;
+        font-weight: 300;
+      }
+
+      .formbox {
+        margin-right: 5px;
+        margin-left: 5px;
+        width: auto;
+        padding: 40px;
+        background: linear-gradient(#a4f1ed, white);
+        border-radius: 10px;
+        opacity: 0.9;
+      }
+
+      .label {
+        font-style: 100px;
+      }
+      .h5 {
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class="contentbox">
+        <div class="formbox">
+          <h2 class="text text-center">BOOK A CALL</h2>
+          <p class="text text-center">Book a call form</p>
+
+          <form
+            action="#"
+            id="localStorageTest"
+            class="row"
+            novalidate
+            onsubmit="saveToLocalstorage(event)"
+          >
+            <hr />
+            <div id="forme" class="form">
+              <label for="fname">Name:</label>
+              <input
+                type="text"
+                id="fname"
+                class="form form-control"
+                placeholder="Enter your name"
+                required
+              />
+
+              <label for="mail">Email:</label>
+              <input
+                type="email"
+                id="mail"
+                class="form form-control"
+                placeholder="Enter your email"
+                required
+              />
+
+              <label for="num">Phone No:</label>
+              <input
+                type="tel"
+                id="num"
+                class="form form-control"
+                placeholder="Enter your Phone number"
+                required
+              />
+
+              <div class="form-group row">
+                <label for="time">Time for Call and Date:</label>
+                <div class="col-sm-6">
+                  <input type="time" id="time" class="form-control" required />
+                </div>
+                <div class="col-sm-6">
+                  <input type="date" id="date" class="form-control" required />
+                </div>
+              </div>
+              <input type="submit" class="btn mb-3 btn" value="Submit" />
+              <ul id="list">
+                <h5>Appointment UserDetail</h5>
+              </ul>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let formData = {};
+
+    let form = document.querySelector("form");
+    form.addEventListener("submit", (saveToLocalstorage) => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+      }
+      form.classList.add("was-validated");
+    });
+
+    function saveToLocalstorage(event) {
+      event.preventDefault();
+
+      let name = event.target.fname.value;
+      let email = event.target.mail.value;
+      let phone = event.target.num.value;
+      let time = event.target.time.value;
+      let date = event.target.date.value;
+
+      // localStorage.setItem('name', name);
+      // localStorage.setItem('email',email);
+      // localStorage.setItem('phone',phone);
+      // localStorage.setItem('time',time);
+      // localStorage.setItem('date',date);
+
+      // console.log(name)
+
+      //storing a object
+      formData = {
+        name: name,
+        email: email,
+        phone: phone,
+        time: time,
+        date: date,
+      };
+
+      //itisnotvalid localStorage.setItem('formData',formData)
+      //it convets the object iin string store it
+      localStorage.setItem(formData.email, JSON.stringify(formData));
+      showUserDisplay();
+    }
+    function showUserDisplay() {
+      let parentEle = document.getElementById("list");
+      let childEle = document.createElement("li");
+      childEle.textContent =
+        formData.name +
+        " - " +
+        formData.email +
+        " - " +
+        formData.phone +
+        " - " +
+        formData.date +
+        " - " +
+        formData.time;
+
+      // let deletbtn = document.createElement("input");
+      // deletbtn.type = "button";
+      // deletbtn.className = "btn-danger btn-sm float-right delete";
+      // deletbtn.value = "Delete";
+
+      // deletbtn.addEventListener("click", () => {
+      //   localStorage.removeItem(formData.name);
+
+      //   parentEle.removeChild(childEle);
+      // });
+
+      // let editbtn = document.createElement("input");
+      // editbtn.type = "button";
+      // editbtn.className = "btn-success btn-sm ml-3 float-right edit-add";
+      // editbtn.value = "Edit";
+
+      // editbtn.onclick = () => {
+      //   localStorage.removeItem(formData.name);
+      //   parentEle.removeChild(childEle);
+
+      //   document.getElementById("fname").value = formData.name;
+      //   document.getElementById("mail").value = formData.email;
+      //   document.getElementById("num").value = formData.phone;
+      //   document.getElementById("time").value = formData.time;
+      //   document.getElementById("date").value = formData.date;
+      // };
+      // childEle.appendChild(editbtn);
+      // childEle.appendChild(deletbtn);
+      parentEle.appendChild(childEle);
+
+      delet(childEle);
+
+      edit(childEle);
+    }
+
+    function delet(listItem) {
+      // console.log(listItem);
+      let addbtn = document.createElement("button");
+      addbtn.className = "btn-danger btn-sm float-right delete";
+      addbtn.textContent = "Delete";
+
+      listItem.addEventListener("click", function () {
+        console.log("delete");
+        listItem.remove();
+
+        localStorage.removeItem(formData.email);
+        // removeItem();
+      });
+
+      listItem.appendChild(addbtn);
+    }
+
+    function edit(listItem) {
+      console.log("editfunction");
+      let editBtn = document.createElement("button");
+      editBtn.className = "btn-success btn-sm ml-3 float-right edit-add";
+      editBtn.textContent = "Edit";
+      console.log(editBtn);
+
+      editBtn.addEventListener("click", function () {
+        // e.preventDefault();
+        let formDatae = JSON.parse(localStorage.getItem(formData.email));
+        console.log(formDatae);
+        if (formData) {
+          document.getElementById("fname").value = formData.name;
+          document.getElementById("mail").value = formData.email;
+          document.getElementById("num").value = formData.phone;
+          document.getElementById("time").value = formData.time;
+          document.getElementById("date").value = formData.date;
+
+          localStorage.removeItem(formData.email);
+
+          listItem.remove();
+        }
+      });
+      listItem.appendChild(editBtn);
+    }
+  </script>
+</html>
